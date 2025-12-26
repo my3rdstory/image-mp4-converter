@@ -69,6 +69,44 @@ USE_UV=0 ./run.sh
 
 브라우저에서 `http://127.0.0.1:1031/`로 접속하세요.
 
+## systemd로 실행 (Linux)
+
+서비스 파일을 `/etc/systemd/system`에 복사한 뒤 활성화합니다.
+
+```bash
+sudo cp image-mp4-converter.service /etc/systemd/system/image-mp4-converter.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now image-mp4-converter
+```
+
+외부 접속이 필요하면 `HOST=0.0.0.0`으로 설정하세요. 필요 시 override로 환경 변수를 덮어쓸 수 있습니다.
+
+```bash
+sudo systemctl edit image-mp4-converter
+```
+
+```ini
+[Service]
+Environment=HOST=0.0.0.0
+Environment=PORT=1031
+Environment=USE_UV=1
+```
+
+변경 후 재시작합니다.
+
+```bash
+sudo systemctl restart image-mp4-converter
+```
+
+상태와 로그는 아래에서 확인합니다.
+
+```bash
+sudo systemctl status image-mp4-converter --no-pager
+journalctl -u image-mp4-converter -f
+```
+
+외부에서 접속하려면 방화벽/보안그룹에서 포트를 열어야 합니다.
+
 ## 수동 설정 (선택)
 
 ### uv
@@ -96,6 +134,7 @@ python -m pip install -r requirements.txt
 ## 참고
 
 - 기본 호스트는 `127.0.0.1`이며, 외부 접속이 필요하면 `HOST=0.0.0.0 ./run.sh`를 사용하세요.
+- systemd 배포용 서비스 파일은 `image-mp4-converter.service`이며, 환경 변수는 override로 변경하는 것을 권장합니다.
 - 기본 포트는 `1031`이며, `PORT=9000 ./run.sh`처럼 변경할 수 있습니다.
 - 변환 시간 입력값은 브라우저에 저장되어 다음 드롭의 기본값으로 사용됩니다.
 - 이펙트 설정 파일은 `effects/` 폴더의 JSON으로 관리됩니다.
