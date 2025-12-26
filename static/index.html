@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ken Burns Video Maker</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <p class="eyebrow">Still Image to MP4</p>
+        <h1>Ken Burns Video Maker</h1>
+        <p class="subtitle">
+          Drag and drop an image to generate a zooming MP4. The file downloads
+          automatically when ready.
+        </p>
+      </header>
+
+      <section class="controls">
+        <label class="field">
+          <span>Duration (seconds)</span>
+          <input
+            id="duration"
+            type="number"
+            min="1"
+            max="60"
+            step="0.5"
+            value="5"
+          />
+        </label>
+        <label class="field">
+          <span>Ken Burns stage</span>
+          <select id="stage">
+            <option value="1">Stage 1 (gentle)</option>
+            <option value="2">Stage 2 (medium)</option>
+            <option value="3">Stage 3 (strong)</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="drop-zone" id="drop-zone">
+        <div class="drop-content">
+          <div class="drop-title">Drop an image here</div>
+          <div class="drop-subtitle">or click to browse</div>
+        </div>
+        <input id="file-input" type="file" accept="image/*" />
+      </section>
+
+      <section class="log-panel">
+        <div class="log-header">
+          <span>Processing log</span>
+          <button id="clear-log" type="button">Clear</button>
+        </div>
+        <pre id="log"></pre>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
