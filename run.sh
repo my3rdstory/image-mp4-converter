@@ -49,6 +49,14 @@ else
     "$PYTHON_BIN" -m venv "$VENV_DIR"
   fi
   source "$VENV_DIR/bin/activate"
+  if ! python -m pip --version >/dev/null 2>&1; then
+    if python -m ensurepip --upgrade >/dev/null 2>&1; then
+      :
+    else
+      echo "pip 설치에 실패했습니다. python3-venv 패키지를 확인해주세요."
+      exit 1
+    fi
+  fi
   python -m pip install --upgrade pip
   if [ ! -f requirements.txt ]; then
     echo "requirements.txt가 없습니다. 배포용 의존성 목록을 확인해주세요."

@@ -9,6 +9,8 @@ User=myhome
 WorkingDirectory=/home/myhome/image-mp4-converter
 Environment=HOST=127.0.0.1
 Environment=PORT=1031
+Environment=USE_UV=1
+Environment=PATH=/home/myhome/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart=/usr/bin/env bash /home/myhome/image-mp4-converter/run.sh
 Restart=on-failure
 RestartSec=3
