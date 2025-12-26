@@ -1,7 +1,8 @@
 [project]
-name = "kenburn-video"
+name = "still-motion-mp4"
 version = "0.1.0"
-description = "Convert still images into Ken Burns style MP4 videos."
+description = "Convert still images into motion MP4 videos with selectable effects."
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "fastapi==0.115.0",

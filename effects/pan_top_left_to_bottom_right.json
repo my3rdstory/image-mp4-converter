@@ -1,0 +1,7 @@
+{
+  "id": "pan_top_left_to_bottom_right",
+  "zoom_rate": 0.012,
+  "zoom_direction": "in",
+  "pan_start": [0.3, 0.3],
+  "pan_end": [0.7, 0.7]
+}

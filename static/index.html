@@ -3,66 +3,156 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>켄 번즈 영상 변환기</title>
+    <title>정지 이미지 모션 MP4 변환기</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <main class="app">
       <header class="header">
         <p class="eyebrow">정지 이미지 → MP4</p>
-        <h1>켄 번즈 영상 변환기</h1>
+        <h1>정지 이미지 모션 MP4 변환기</h1>
         <p class="subtitle">
-          이미지를 드래그 앤 드롭하면 줌 효과가 적용된 MP4가 만들어집니다. 결과는
-          준비되는 즉시 자동으로 다운로드됩니다.
+          다양한 이펙트를 선택해 정지 이미지를 부드러운 모션 MP4로 변환합니다.
+          진행률 100%가 되면 자동 다운로드가 시작됩니다.
         </p>
       </header>
 
-      <section class="controls">
-        <label class="field">
-          <span>시간 (초)</span>
-          <input
-            id="duration"
-            type="number"
-            min="1"
-            max="60"
-            step="0.5"
-            value="5"
-          />
-        </label>
-        <label class="field">
-          <span>켄 번즈 단계</span>
-          <select id="stage">
-            <option value="1">1단계 (약하게)</option>
-            <option value="2">2단계 (중간)</option>
-            <option value="3">3단계 (강하게)</option>
-          </select>
-        </label>
-      </section>
+      <section class="workspace">
+        <aside class="effects-panel">
+          <h2>이펙트 선택</h2>
+          <div class="effects-list">
+            <button
+              class="effect-button is-active"
+              type="button"
+              data-effect="zoom_in_center"
+              data-label="줌 인 (중앙)"
+            >
+              줌 인 (중앙)
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="zoom_out_center"
+              data-label="줌 아웃 (중앙)"
+            >
+              줌 아웃 (중앙)
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="pan_left_to_right"
+              data-label="좌 → 우 패닝"
+            >
+              좌 → 우 패닝
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="pan_right_to_left"
+              data-label="우 → 좌 패닝"
+            >
+              우 → 좌 패닝
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="pan_top_left_to_bottom_right"
+              data-label="좌상 → 우하 패닝"
+            >
+              좌상 → 우하 패닝
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="pan_bottom_right_to_top_left"
+              data-label="우하 → 좌상 패닝"
+            >
+              우하 → 좌상 패닝
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="pan_bottom_left_to_top_right"
+              data-label="좌하 → 우상 패닝"
+            >
+              좌하 → 우상 패닝
+            </button>
+            <button
+              class="effect-button"
+              type="button"
+              data-effect="pan_top_right_to_bottom_left"
+              data-label="우상 → 좌하 패닝"
+            >
+              우상 → 좌하 패닝
+            </button>
+          </div>
+          <p class="effects-hint">⚠️ 두 장 이상 연속 변환 시 이펙트가 랜덤으로 적용됩니다.</p>
+        </aside>
 
-      <section class="drop-zone" id="drop-zone">
-        <div class="drop-content">
-          <div class="drop-title">이미지를 여기에 놓으세요</div>
-          <div class="drop-subtitle">또는 클릭해서 선택</div>
-        </div>
-        <input id="file-input" type="file" accept="image/*" />
-      </section>
+        <section class="center-panel">
+          <section class="controls">
+            <label class="field">
+              <span>시간 (초)</span>
+              <input
+                id="duration"
+                type="number"
+                min="1"
+                max="60"
+                step="0.5"
+                value="5"
+              />
+            </label>
+            <label class="field">
+              <span>단계</span>
+              <select id="stage">
+                <option value="1">1단계</option>
+                <option value="2">2단계</option>
+                <option value="3">3단계</option>
+              </select>
+            </label>
+          </section>
 
-      <section class="result-panel" id="result-panel">
-        <div class="result-title">다운로드 준비</div>
-        <a id="download-link" class="download-link" href="#" download>
-          결과 MP4 다운로드
-        </a>
-        <p class="result-hint" id="download-hint">
-          자동 다운로드가 차단되면 위 버튼을 눌러주세요.
-        </p>
-      </section>
+          <section class="drop-zone" id="drop-zone">
+            <div class="drop-content">
+              <div class="drop-title">이미지를 여기에 놓으세요</div>
+              <div class="drop-subtitle">또는 클릭해서 선택</div>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill"></div>
+            </div>
+            <input id="file-input" type="file" accept="image/*" multiple />
+          </section>
 
-      <section class="log-panel">
-        <div class="log-header">
-          <span>처리 로그</span>
-          <button id="clear-log" type="button">비우기</button>
-        </div>
-        <pre id="log"></pre>
+          <section class="thumbs-panel">
+            <div class="thumbs-grid" id="thumbs"></div>
+          </section>
+
+          <section class="log-panel">
+            <div class="log-header">
+              <span>처리 로그</span>
+              <button id="clear-log" type="button">비우기</button>
+            </div>
+            <pre id="log"></pre>
+          </section>
+        </section>
+
+        <aside class="download-panel" id="result-panel">
+          <div class="result-title">다운로드</div>
+          <a
+            id="download-link"
+            class="download-link is-disabled"
+            href="#"
+            role="button"
+            aria-disabled="true"
+            download
+          >
+            결과 MP4 다운로드
+          </a>
+          <p class="result-hint" id="download-hint">
+            변환이 완료되면 자동 다운로드됩니다. 차단되면 버튼을 눌러주세요.
+          </p>
+        </aside>
       </section>
     </main>
 

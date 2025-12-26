@@ -1,0 +1,7 @@
+{
+  "id": "zoom_out_center",
+  "zoom_rate": 0.015,
+  "zoom_direction": "out",
+  "pan_start": [0.5, 0.5],
+  "pan_end": [0.5, 0.5]
+}
