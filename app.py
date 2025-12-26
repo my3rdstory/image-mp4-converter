@@ -63,6 +63,8 @@ async def favicon() -> FileResponse:
     return FileResponse(FAVICON_PATH)
 
 
+
+
 def clamp_duration(seconds: float) -> float:
     if seconds <= 0:
         return 5.0

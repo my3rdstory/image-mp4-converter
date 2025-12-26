@@ -374,6 +374,35 @@ h1 {
   text-align: center;
 }
 
+.donation-widget {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  box-shadow: var(--shadow);
+  text-align: center;
+  z-index: 20;
+}
+
+.donation-widget img {
+  width: 140px;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.donation-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -406,5 +435,15 @@ h1 {
 
   .thumbs-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .donation-widget {
+    right: 14px;
+    bottom: 14px;
+    padding: 10px;
+  }
+
+  .donation-widget img {
+    width: 110px;
   }
 }
