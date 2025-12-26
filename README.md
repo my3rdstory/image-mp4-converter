@@ -10,6 +10,13 @@
 
 ## OS별 설치 및 실행
 
+아래 모든 OS 공통으로 먼저 저장소를 내려받습니다.
+
+```bash
+git clone https://github.com/my3rdstory/image-mp4-converter.git
+cd image-mp4-converter
+```
+
 ### Windows (Git Bash 또는 WSL2)
 
 Git Bash를 쓰는 경우:
@@ -23,7 +30,6 @@ winget install Git.Git
 Git Bash에서 실행:
 
 ```bash
-cd /c/path/image-mp4-converter
 chmod +x run.sh
 ./run.sh
 ```
@@ -33,7 +39,6 @@ WSL2를 쓰는 경우:
 ```bash
 sudo apt update
 sudo apt install -y python3 python3-venv ffmpeg
-cd /mnt/c/path/image-mp4-converter
 chmod +x run.sh
 ./run.sh
 ```
@@ -43,7 +48,6 @@ chmod +x run.sh
 ```bash
 brew install python@3.11 ffmpeg
 brew install uv
-cd /path/image-mp4-converter
 chmod +x run.sh
 ./run.sh
 ```
@@ -53,7 +57,6 @@ chmod +x run.sh
 ```bash
 sudo apt update
 sudo apt install -y python3 python3-venv ffmpeg
-cd /path/image-mp4-converter
 chmod +x run.sh
 ./run.sh
 ```
@@ -88,7 +91,7 @@ python -m pip install -r requirements.txt
 
 기부는 `nextmoney@oksu.su`로 보내주세요.
 
-![기부 QR 코드](static/nextmoney-oksusu.jpg)
+<img src="static/nextmoney-oksusu.jpg" alt="기부 QR 코드" width="186" height="188">
 
 ## 참고
 
