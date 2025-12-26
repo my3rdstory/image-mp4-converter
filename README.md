@@ -84,9 +84,19 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
+## 기부
+
+기부는 `nextmoney@oksu.su`로 보내주세요.
+
+![기부 QR 코드](static/nextmoney-oksusu.jpg)
+
 ## 참고
 
 - 기본 호스트는 `127.0.0.1`이며, 외부 접속이 필요하면 `HOST=0.0.0.0 ./run.sh`를 사용하세요.
 - 기본 포트는 `1031`이며, `PORT=9000 ./run.sh`처럼 변경할 수 있습니다.
 - 변환 시간 입력값은 브라우저에 저장되어 다음 드롭의 기본값으로 사용됩니다.
 - 이펙트 설정 파일은 `effects/` 폴더의 JSON으로 관리됩니다.
+
+## 라이선스
+
+MIT License. 자세한 내용은 `LICENSE`를 참고하세요.
