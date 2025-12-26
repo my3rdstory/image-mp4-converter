@@ -4,6 +4,9 @@ const durationInput = document.getElementById("duration");
 const stageSelect = document.getElementById("stage");
 const logEl = document.getElementById("log");
 const clearLogButton = document.getElementById("clear-log");
+const resultPanel = document.getElementById("result-panel");
+const downloadLink = document.getElementById("download-link");
+const downloadHint = document.getElementById("download-hint");
 
 const STORAGE_KEYS = {
   duration: "kenburns_duration",
@@ -11,9 +14,9 @@ const STORAGE_KEYS = {
 };
 
 const STAGE_LABELS = {
-  1: "Stage 1 (gentle zoom 1.10x)",
-  2: "Stage 2 (medium zoom 1.20x)",
-  3: "Stage 3 (strong zoom 1.30x)",
+  1: "1단계 (줌 1.10배)",
+  2: "2단계 (줌 1.20배)",
+  3: "3단계 (줌 1.30배)",
 };
 
 function logLine(message) {
@@ -23,11 +26,31 @@ function logLine(message) {
   logEl.scrollTop = logEl.scrollHeight;
 }
 
+let currentDownloadUrl = null;
+
+function resetDownload() {
+  if (currentDownloadUrl) {
+    URL.revokeObjectURL(currentDownloadUrl);
+    currentDownloadUrl = null;
+  }
+  downloadLink.removeAttribute("href");
+  resultPanel.classList.remove("is-visible");
+  downloadHint.textContent = "자동 다운로드가 차단되면 위 버튼을 눌러주세요.";
+}
+
+function showDownload(url, filename) {
+  currentDownloadUrl = url;
+  downloadLink.href = url;
+  downloadLink.download = filename;
+  resultPanel.classList.add("is-visible");
+}
+
 function setBusy(isBusy) {
   durationInput.disabled = isBusy;
   stageSelect.disabled = isBusy;
   fileInput.disabled = isBusy;
   dropZone.classList.toggle("is-busy", isBusy);
+  dropZone.setAttribute("aria-disabled", isBusy ? "true" : "false");
 }
 
 function restoreDefaults() {
@@ -51,14 +74,14 @@ async function parseError(response) {
   const contentType = response.headers.get("content-type") || "";
   if (contentType.includes("application/json")) {
     const data = await response.json();
-    return data.detail || "Unexpected server response.";
+    return data.detail || "서버 응답이 예상과 다릅니다.";
   }
   return response.text();
 }
 
 async function convertFile(file) {
   if (!file || !file.type.startsWith("image/")) {
-    logLine("Please drop a valid image file.");
+    logLine("올바른 이미지 파일을 넣어주세요.");
     return;
   }
 
@@ -67,7 +90,8 @@ async function convertFile(file) {
 
   persistDefaults();
   setBusy(true);
-  logLine(`Starting conversion: ${STAGE_LABELS[stage] || "Stage 1"}, ${duration}s.`);
+  resetDownload();
+  logLine(`변환 시작: ${STAGE_LABELS[stage] || "1단계"}, ${duration}초.`);
 
   const formData = new FormData();
   formData.append("file", file);
@@ -85,19 +109,22 @@ async function convertFile(file) {
       throw new Error(detail);
     }
 
-    logLine("Rendering finished. Preparing download...");
+    logLine("렌더링 완료. 다운로드 준비 중...");
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `kenburns_stage_${stage}.mp4`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    logLine("Download started.");
+    const filename = `kenburns_stage_${stage}.mp4`;
+    showDownload(url, filename);
+    logLine("다운로드 링크를 준비했습니다.");
+    const canAutoDownload = !("userActivation" in navigator) || navigator.userActivation.isActive;
+    if (canAutoDownload) {
+      downloadLink.click();
+      logLine("자동 다운로드를 시도했습니다.");
+    } else {
+      downloadHint.textContent = "자동 다운로드가 차단될 수 있습니다. 버튼을 눌러주세요.";
+      logLine("자동 다운로드가 차단될 수 있습니다. 버튼을 눌러주세요.");
+    }
   } catch (error) {
-    logLine(`Error: ${error.message}`);
+    logLine(`오류: ${error.message}`);
   } finally {
     setBusy(false);
   }
@@ -123,11 +150,19 @@ function stopDefaults(event) {
 });
 
 dropZone.addEventListener("drop", (event) => {
+  if (fileInput.disabled) {
+    logLine("변환이 끝나면 새 파일을 넣어주세요.");
+    return;
+  }
   const file = event.dataTransfer.files[0];
   convertFile(file);
 });
 
 fileInput.addEventListener("change", (event) => {
+  if (fileInput.disabled) {
+    logLine("변환이 끝나면 새 파일을 넣어주세요.");
+    return;
+  }
   const file = event.target.files[0];
   if (file) {
     convertFile(file);
@@ -142,4 +177,5 @@ durationInput.addEventListener("change", persistDefaults);
 stageSelect.addEventListener("change", persistDefaults);
 
 restoreDefaults();
-logLine("Ready. Drop an image to start.");
+resetDownload();
+logLine("준비 완료. 이미지를 드롭해 시작하세요.");

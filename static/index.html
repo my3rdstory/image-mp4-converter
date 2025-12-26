@@ -1,25 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ken Burns Video Maker</title>
+    <title>켄 번즈 영상 변환기</title>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <main class="app">
       <header class="header">
-        <p class="eyebrow">Still Image to MP4</p>
-        <h1>Ken Burns Video Maker</h1>
+        <p class="eyebrow">정지 이미지 → MP4</p>
+        <h1>켄 번즈 영상 변환기</h1>
         <p class="subtitle">
-          Drag and drop an image to generate a zooming MP4. The file downloads
-          automatically when ready.
+          이미지를 드래그 앤 드롭하면 줌 효과가 적용된 MP4가 만들어집니다. 결과는
+          준비되는 즉시 자동으로 다운로드됩니다.
         </p>
       </header>
 
       <section class="controls">
         <label class="field">
-          <span>Duration (seconds)</span>
+          <span>시간 (초)</span>
           <input
             id="duration"
             type="number"
@@ -30,27 +30,37 @@
           />
         </label>
         <label class="field">
-          <span>Ken Burns stage</span>
+          <span>켄 번즈 단계</span>
           <select id="stage">
-            <option value="1">Stage 1 (gentle)</option>
-            <option value="2">Stage 2 (medium)</option>
-            <option value="3">Stage 3 (strong)</option>
+            <option value="1">1단계 (약하게)</option>
+            <option value="2">2단계 (중간)</option>
+            <option value="3">3단계 (강하게)</option>
           </select>
         </label>
       </section>
 
       <section class="drop-zone" id="drop-zone">
         <div class="drop-content">
-          <div class="drop-title">Drop an image here</div>
-          <div class="drop-subtitle">or click to browse</div>
+          <div class="drop-title">이미지를 여기에 놓으세요</div>
+          <div class="drop-subtitle">또는 클릭해서 선택</div>
         </div>
         <input id="file-input" type="file" accept="image/*" />
       </section>
 
+      <section class="result-panel" id="result-panel">
+        <div class="result-title">다운로드 준비</div>
+        <a id="download-link" class="download-link" href="#" download>
+          결과 MP4 다운로드
+        </a>
+        <p class="result-hint" id="download-hint">
+          자동 다운로드가 차단되면 위 버튼을 눌러주세요.
+        </p>
+      </section>
+
       <section class="log-panel">
         <div class="log-header">
-          <span>Processing log</span>
-          <button id="clear-log" type="button">Clear</button>
+          <span>처리 로그</span>
+          <button id="clear-log" type="button">비우기</button>
         </div>
         <pre id="log"></pre>
       </section>
